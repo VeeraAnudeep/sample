@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="@dimen/padding_margin_normal">
+
+    <TextView
+        android:layout_marginRight="@dimen/padding_margin_normal"
+        android:layout_marginEnd="@dimen/padding_margin_normal"
+        android:id="@+id/airline"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        tools:text="Go Air" />
+
+    <TextView
+        android:layout_marginRight="@dimen/padding_margin_normal"
+        android:layout_marginEnd="@dimen/padding_margin_normal"
+        android:id="@+id/klass"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        tools:text="Economy" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_marginRight="@dimen/padding_margin_normal"
+            android:layout_marginEnd="@dimen/padding_margin_normal"
+            android:id="@+id/arrivalTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="11:34" />
+
+        <TextView
+            android:layout_marginRight="@dimen/padding_margin_normal"
+            android:layout_marginEnd="@dimen/padding_margin_normal"
+            android:id="@+id/departureTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/arrivalTime"
+            tools:text="11:34" />
+    </RelativeLayout>
+
+
+
+    <TextView
+        android:layout_marginRight="@dimen/padding_margin_normal"
+        android:layout_marginEnd="@dimen/padding_margin_normal"
+        android:id="@+id/price"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        tools:text="Rs 3000" />
+</LinearLayout>

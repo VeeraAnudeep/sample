@@ -8,12 +8,6 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
 public abstract class BaseDbHelper extends SQLiteOpenHelper {
     protected Context mContext;
     protected SQLiteQueryBuilder mChatSessionQueryBuilder = new SQLiteQueryBuilder();
@@ -64,22 +58,6 @@ public abstract class BaseDbHelper extends SQLiteOpenHelper {
         } finally {
             db.endTransaction();
         }
-    }
-
-    protected void copyDataBase(Context context, String dbName) throws IOException {
-        getReadableDatabase().close();
-        InputStream inputStream = context.getAssets().open(dbName);
-        File file = context.getDatabasePath(dbName);
-        file.mkdirs();
-        OutputStream fileOutputStream = new FileOutputStream(file);
-        byte[] buffer = new byte[1024];
-        int length;
-        while ((length = inputStream.read(buffer)) > 0) {
-            fileOutputStream.write(buffer, 0, length);
-        }
-        fileOutputStream.flush();
-        fileOutputStream.close();
-        inputStream.close();
     }
 
 }

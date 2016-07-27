@@ -22,6 +22,7 @@ public class FlightsContract {
         public static final String COLUMN_PRICE = "price";
         public static final String COLUMN_AIRLINE = "airline";
         public static final String COLUMN_KLASS = "class";
+        public static final String COLUMN_DATE = "date";
 
         //Indices used for data extraction
 
@@ -33,5 +34,6 @@ public class FlightsContract {
         public static final int INDEX_PRICE = INDEX_LANDING_TIME + 1;
         public static final int INDEX_AIRLINE = INDEX_PRICE + 1;
         public static final int INDEX_KLASS = INDEX_AIRLINE + 1;
+        public static final int INDEX_DATE = INDEX_KLASS + 1;
     }
 }

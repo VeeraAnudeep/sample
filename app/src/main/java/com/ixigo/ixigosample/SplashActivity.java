@@ -9,6 +9,10 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.ixigo.ixigosample.adapters.FlightsListAdapter;
 import com.ixigo.ixigosample.dbManager.contracts.FlightsContract;
@@ -24,9 +28,12 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
-public class SplashActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
-    FlightsListAdapter flightsListAdapter;
+public class SplashActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>, View.OnClickListener {
+    private FlightsListAdapter flightsListAdapter;
+    private TextView sortedBy;
+    private TextView zeroCase;
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,12 +42,29 @@ public class SplashActivity extends AppCompatActivity implements LoaderManager.L
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(flightsListAdapter);
+        findViewById(R.id.price).setOnClickListener(this);
+        findViewById(R.id.takeOf).setOnClickListener(this);
+        findViewById(R.id.landing).setOnClickListener(this);
+        sortedBy = (TextView) findViewById(R.id.sortedBy);
+        zeroCase = (TextView) findViewById(R.id.zeroCase);
         getSupportLoaderManager().initLoader(11, null, this);
         GetJsonFile getJsonFile = new GetJsonFile();
         getJsonFile.execute();
     }
 
-    private InputStream getStream(String endpoint) {
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
+    }
+
+    private InputStream getInputStream(String endpoint) {
         try {
             URL url = new URL(endpoint);
             URLConnection urlConnection = url.openConnection();
@@ -52,8 +76,8 @@ public class SplashActivity extends AppCompatActivity implements LoaderManager.L
     }
 
 
-    private String getJsonFile() {
-        InputStream i = getStream("http://blog.ixigo.com/sampleflightdata.json");
+    private String getJson() {
+        InputStream i = getInputStream("http://blog.ixigo.com/sampleflightdata.json");
         String jsonString = "";
         if (i != null) {
             BufferedReader br = new BufferedReader(new InputStreamReader(i));
@@ -75,13 +99,30 @@ public class SplashActivity extends AppCompatActivity implements LoaderManager.L
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        //Only simple single column sorting is being handled here
+        String sortBy = FlightsContract.FlightDataEntry.COLUMN_PRICE; //sorting it by price by default
+        if (args != null) {
+            sortBy = args.getString(Constants.SORT_BY);
+        }
+        String sortedByFormat = String.format(getString(R.string.sorted_by), sortBy);
+        sortedBy.setText(sortedByFormat);
+
         //populating entire data assuming only single origin-destination flights
-        return new CursorLoader(this, FlightsContract.FlightDataEntry.FLIGHT_DATA, null, null, null, null);
+        //so if this activity gets called for a particular origin and destination then the cursorloader call changes
+        //with the respective origin and destination
+        return new CursorLoader(this, FlightsContract.FlightDataEntry.FLIGHT_DATA, null, null, null, sortBy + " ASC");
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        flightsListAdapter.setCursor(data);
+        if (data != null) {
+            if (data.getCount() == 0) { //handling zeroCase if no flights are found
+                zeroCase.setVisibility(View.VISIBLE);
+            } else {
+                zeroCase.setVisibility(View.GONE);
+            }
+            flightsListAdapter.setCursor(data);
+        }
     }
 
     @Override
@@ -89,12 +130,32 @@ public class SplashActivity extends AppCompatActivity implements LoaderManager.L
 
     }
 
+    @Override
+    public void onClick(View v) {
+        Bundle bundle = new Bundle();
+        switch (v.getId()) {
+            case R.id.price:
+                bundle.putString(Constants.SORT_BY, FlightsContract.FlightDataEntry.COLUMN_PRICE);
+                break;
+            case R.id.takeOf:
+                bundle.putString(Constants.SORT_BY, FlightsContract.FlightDataEntry.COLUMN_TAKE_OF_TIME);
+                break;
+            case R.id.landing:
+                bundle.putString(Constants.SORT_BY, FlightsContract.FlightDataEntry.COLUMN_LANDING_TIME);
+                break;
+        }
+        getSupportLoaderManager().restartLoader(11, bundle, this); //to apply the sort and refresh the list
+    }
+
+    //Downloads the json file and retrieves json from it
     private class GetJsonFile extends AsyncTask<String, String, String> {
         @Override
         protected void onPostExecute(String s) {
             try {
                 JSONObject jsonObject = new JSONObject(s);
-                new FlightsList(jsonObject, SplashActivity.this);
+                //json is parsed and inserted in to db in flightList class
+                FlightsList flightsList = new FlightsList(jsonObject, SplashActivity.this);
+                setTitle(flightsList.originCode + " - " + flightsList.destinationCode);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -102,7 +163,7 @@ public class SplashActivity extends AppCompatActivity implements LoaderManager.L
 
         @Override
         protected String doInBackground(String... params) {
-            return getJsonFile();
+            return getJson();
         }
     }
 }

@@ -42,10 +42,14 @@ public class FlightsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         mCursor.moveToPosition(position);
         if (holder instanceof FlightItemViewHolder) {
             FlightItemViewHolder viewHolder = (FlightItemViewHolder) holder;
-            viewHolder.price.setText(mCursor.getString(FlightsContract.FlightDataEntry.INDEX_PRICE));
+            String price = String.format(mContext.getString(R.string.price), mCursor.getInt(FlightsContract.FlightDataEntry.INDEX_PRICE));
+            String time = String.format(mContext.getString(R.string.time),
+                    mCursor.getString(FlightsContract.FlightDataEntry.INDEX_TAKE_OF_TIME),
+                    mCursor.getString(FlightsContract.FlightDataEntry.INDEX_LANDING_TIME));
+            viewHolder.price.setText(price);
+            viewHolder.time.setText(time);
+            viewHolder.date.setText(mCursor.getString(FlightsContract.FlightDataEntry.INDEX_DATE));
             viewHolder.klass.setText(mCursor.getString(FlightsContract.FlightDataEntry.INDEX_KLASS));
-            viewHolder.startTime.setText(mCursor.getString(FlightsContract.FlightDataEntry.INDEX_TAKE_OF_TIME));
-            viewHolder.endTime.setText(mCursor.getString(FlightsContract.FlightDataEntry.INDEX_LANDING_TIME));
             viewHolder.airlines.setText(mCursor.getString(FlightsContract.FlightDataEntry.INDEX_AIRLINE));
         }
     }
@@ -56,8 +60,8 @@ public class FlightsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     public class FlightItemViewHolder extends RecyclerView.ViewHolder {
-        public TextView startTime;
-        public TextView endTime;
+        public TextView time;
+        public TextView date;
         public TextView klass;
         public TextView price;
         public TextView airlines;
@@ -65,10 +69,10 @@ public class FlightsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         public FlightItemViewHolder(View itemView) {
             super(itemView);
             airlines = (TextView) itemView.findViewById(R.id.airline);
-            startTime = (TextView) itemView.findViewById(R.id.arrivalTime);
-            endTime = (TextView) itemView.findViewById(R.id.departureTime);
+            time = (TextView) itemView.findViewById(R.id.time);
             klass = (TextView) itemView.findViewById(R.id.klass);
             price = (TextView) itemView.findViewById(R.id.price);
+            date = (TextView)itemView.findViewById(R.id.date);
         }
     }
 }

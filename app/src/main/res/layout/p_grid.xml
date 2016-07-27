@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_margin_normal"
+        android:columnCount="5">
+
+        <TextView
+            android:id="@+id/airline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/padding_margin_normal"
+            android:layout_marginRight="@dimen/padding_margin_normal"
+            tools:text="Go Air" />
+
+        <TextView
+            android:id="@+id/klass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/padding_margin_normal"
+            android:layout_marginRight="@dimen/padding_margin_normal"
+            android:layout_weight="1"
+            tools:text="Economy" />
+
+        <!--<RelativeLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content">-->
+        <TextView
+            android:id="@+id/arrivalTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/padding_margin_normal"
+            android:layout_marginRight="@dimen/padding_margin_normal"
+            tools:text="11:34" />
+
+        <TextView
+            android:id="@+id/departureTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/padding_margin_normal"
+            android:layout_marginRight="@dimen/padding_margin_normal"
+            android:layout_toRightOf="@+id/arrivalTime"
+            tools:text="11:34" />
+        <!--</RelativeLayout>-->
+
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/padding_margin_normal"
+            android:layout_marginRight="@dimen/padding_margin_normal"
+            tools:text="Rs 3000" />
+    </GridLayout>
+</LinearLayout>

@@ -59,13 +59,15 @@ public class FlightsList {
                 values.put(FlightsContract.FlightDataEntry.COLUMN_KLASS, klass);
                 values.put(FlightsContract.FlightDataEntry.COLUMN_TAKE_OF_TIME, departureTime);
                 values.put(FlightsContract.FlightDataEntry.COLUMN_LANDING_TIME, arrivalTime);
-                values.put(FlightsContract.FlightDataEntry.COLUMN_PRICE, price);
+                values.put(FlightsContract.FlightDataEntry.COLUMN_PRICE, Integer.valueOf(price));
+                values.put(FlightsContract.FlightDataEntry.COLUMN_DATE, getDate(takeoffTime, Constants.DATE));
                 contentValues[i] = values;
             }
             context.getContentResolver().bulkInsert(FlightsContract.FlightDataEntry.FLIGHT_DATA, contentValues);
         }
     }
 
+    //function to store mappings given in the API
     private void createHashMap(JSONObject object, HashMap<String, String> map) {
         Iterator<?> keys = object.keys();
         while (keys.hasNext()) {
@@ -75,6 +77,8 @@ public class FlightsList {
         }
     }
 
+
+    //function to covert the server time in ms to date/time format
     public String getDate(long milliSeconds, String dateFormat) {
         SimpleDateFormat formatter = new SimpleDateFormat(dateFormat, Locale.ENGLISH);
         Calendar calendar = Calendar.getInstance();

@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Ixigo Sample</string>
+    <string name="price">\u20B9 %d</string>
+    <string name="time" formatted="false">%s - %s</string>
+    <string name="sort">Sort</string>
+    <string name="airlines">Airlines</string>
+    <string name="price_header">Price</string>
+    <string name="sorted_by">Sorted By : %s</string>
+    <string name="no_flights_found">No Flights found</string>
 </resources>

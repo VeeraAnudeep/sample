@@ -30,9 +30,10 @@ public class IxigoDbHelper extends BaseDbHelper {
                 FlightsContract.FlightDataEntry.COLUMN_DESTINATION + " TEXT, " +
                 FlightsContract.FlightDataEntry.COLUMN_TAKE_OF_TIME + " TEXT, " +
                 FlightsContract.FlightDataEntry.COLUMN_LANDING_TIME + " TEXT, " +
-                FlightsContract.FlightDataEntry.COLUMN_PRICE + " TEXT, " +
+                FlightsContract.FlightDataEntry.COLUMN_PRICE + " INTEGER, " +
                 FlightsContract.FlightDataEntry.COLUMN_AIRLINE + " TEXT, " +
-                FlightsContract.FlightDataEntry.COLUMN_KLASS + " TEXT); ";
+                FlightsContract.FlightDataEntry.COLUMN_KLASS + " TEXT, " +
+                FlightsContract.FlightDataEntry.COLUMN_DATE + " TEXT); ";
 
 
         db.execSQL(SQL_CREATE_FLIGHT_DATA_TABLE);

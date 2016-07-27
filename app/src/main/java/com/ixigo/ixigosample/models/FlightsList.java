@@ -27,6 +27,7 @@ public class FlightsList {
     public String price;
     public String airlineCode;
     public String klass;
+    public String date;
 
 
     public FlightsList(JSONObject object, Context context) {
@@ -53,6 +54,7 @@ public class FlightsList {
                 price = jsonObject.optString(Constants.PRICE);
                 airlineCode = jsonObject.optString(Constants.AIRLINE_CODE);
                 klass = jsonObject.optString(Constants.KLASS);
+                date = getDate(takeoffTime, Constants.DATE);
                 values.put(FlightsContract.FlightDataEntry.COLUMN_ORIGIN, airportMap.get(originCode));
                 values.put(FlightsContract.FlightDataEntry.COLUMN_DESTINATION, airportMap.get(destinationCode));
                 values.put(FlightsContract.FlightDataEntry.COLUMN_AIRLINE, airlineMap.get(airlineCode));
@@ -60,7 +62,7 @@ public class FlightsList {
                 values.put(FlightsContract.FlightDataEntry.COLUMN_TAKE_OF_TIME, departureTime);
                 values.put(FlightsContract.FlightDataEntry.COLUMN_LANDING_TIME, arrivalTime);
                 values.put(FlightsContract.FlightDataEntry.COLUMN_PRICE, Integer.valueOf(price));
-                values.put(FlightsContract.FlightDataEntry.COLUMN_DATE, getDate(takeoffTime, Constants.DATE));
+                values.put(FlightsContract.FlightDataEntry.COLUMN_DATE, date);
                 contentValues[i] = values;
             }
             context.getContentResolver().bulkInsert(FlightsContract.FlightDataEntry.FLIGHT_DATA, contentValues);

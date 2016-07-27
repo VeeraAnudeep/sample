@@ -1,4 +1,4 @@
-package com.ixigo.ixigosample;
+package com.ixigo.ixigosample.activities;
 
 import android.database.Cursor;
 import android.os.AsyncTask;
@@ -12,6 +12,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.ixigo.ixigosample.Constants;
+import com.ixigo.ixigosample.R;
 import com.ixigo.ixigosample.adapters.FlightsListAdapter;
 import com.ixigo.ixigosample.dbManager.contracts.FlightsContract;
 import com.ixigo.ixigosample.models.FlightsList;
@@ -141,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 JSONObject jsonObject = new JSONObject(s);
                 //json is parsed and inserted in to db in flightList class
                 FlightsList flightsList = new FlightsList(jsonObject, MainActivity.this);
-                setTitle(flightsList.originCode + " - " + flightsList.destinationCode);
+                setTitle(flightsList.originCode + " - " + flightsList.destinationCode + " (" + flightsList.date + ")");
             } catch (JSONException e) {
                 e.printStackTrace();
             }

@@ -15,6 +15,6 @@ public class Constants {
     public static final String AIRLINE_CODE = "airlineCode";
     public static final String KLASS = "class";
     public static final String DATE = "dd MMM";
-    public static final String HH_MM = "hh:mm";
+    public static final String HH_MM = "HH:mm";
     public static final String SORT_BY = "sortBy";
 }
